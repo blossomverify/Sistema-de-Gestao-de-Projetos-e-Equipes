@@ -1,6 +1,7 @@
 package model;
 
 public class Projeto {
+    
     String nome;
     String descricao;
     String dataInicio;
