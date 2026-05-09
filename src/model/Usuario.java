@@ -2,11 +2,11 @@ package model;
 
 public class Usuario { 
 
-    String nome;
-    String senha;
-    String email;
-    String cargo;
-    String login;
-    String perfil;
+    private String nome;
+    private String senha;
+    private String email;
+    private String cargo;
+    private String login;
+    private String perfil;
     
 }
