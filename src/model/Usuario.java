@@ -11,51 +11,51 @@ public class Usuario {
     
 
 
-    public string getNome() {
+    public String getNome() {
         return this.nome;
     }
 
-    public void setNome(string nome) {
+    public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public string getSenha() {
+    public String getSenha() {
         return this.senha;
     }
 
-    public void setSenha(string senha) {
+    public void setSenha(String senha) {
         this.senha = senha;
     }
 
-    public string getEmail() {
+    public String getEmail() {
         return this.email;
     }
 
-    public void setEmail(string email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public string getCargo() {
+    public String getCargo() {
         return this.cargo;
     }
 
-    public void setCargo(string cargo) {
+    public void setCargo(String cargo) {
         this.cargo = cargo;
     }
 
-    public string getLogin() {
+    public String getLogin() {
         return this.login;
     }
 
-    public void setLogin(string login) {
+    public void setLogin(String login) {
         this.login = login;
     }
 
-    public string getPerfil() {
+    public String getPerfil() {
         return this.perfil;
     }
 
-    public void setPerfil(string perfil) {
+    public void setPerfil(String perfil) {
         this.perfil = perfil;
     }
 
