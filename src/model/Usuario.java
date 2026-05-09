@@ -10,7 +10,6 @@ public class Usuario {
     private String perfil;
     
 
-
     public String getNome() {
         return this.nome;
     }
