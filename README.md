@@ -1,5 +1,6 @@
 # Sistema de Gestão de Projetos e Equipes
 
+![Banner](https://raw.githubusercontent.com/blossomverify/Sistema-de-Gestao-de-Projetos-e-Equipes/main/docs/banner.png)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, utilizando Java e o padrão de arquitetura MVC.
@@ -23,9 +24,10 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 ## 🚀 Guia de Configuração (Para o Projeto Funcionar)
 
 ### 1. Banco de Dados (Obrigatório)
-O sistema não inicia sem o banco de dados configurado.
-- Abra o seu MySQL (XAMPP, WampServer ou MySQL Workbench).
-- Execute o conteúdo do arquivo `database.sql` para criar o banco `projeto_a3`.
+O sistema não inicia sem o banco de dados configurado e **LIGADO**.
+- Abra o seu painel do **XAMPP** ou **WampServer**.
+- Clique em **START** no módulo **MySQL**.
+- Clique em **Admin** (ou abra o phpMyAdmin) e importe o arquivo `database.sql`.
 - **Importante**: O sistema está configurado para o usuário `root` sem senha. Se o seu MySQL tiver senha, altere na classe `src/util/DatabaseConnection.java`.
 
 ### 2. Configuração do Driver JDBC no VS Code
@@ -41,8 +43,9 @@ O Java precisa do driver para "falar" com o MySQL.
 
 ## ❌ Solução de Problemas (Se não iniciar)
 
+- **Communications link failure:** Isso significa que o seu **MySQL está desligado**. Abra o XAMPP e clique em START no MySQL.
 - **Erro "No suitable driver found":** Significa que o passo 2 não foi feito corretamente. Adicione o JAR da pasta `lib` nas bibliotecas do projeto.
 - **Erro "Access denied for user":** Verifique seu usuário e senha do MySQL na classe `src/util/DatabaseConnection.java`.
-- **O Banco de Dados está ligado?** Certifique-se de que o serviço do MySQL está ativo no seu computador.
 
 Este projeto segue as diretrizes de código limpo, sem comentários no fonte.
+
