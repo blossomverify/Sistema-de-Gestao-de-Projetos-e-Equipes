@@ -1,6 +1,6 @@
 # Sistema de Gestão de Projetos e Equipes
 
-![Banner](https://images.unsplash.com/photo-1454165833767-027ffea9e77b?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3)
+![Banner](https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80)
 
 ![Status](https://img.shields.io/badge/Status-Desenvolvimento-green?style=for-the-badge)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
