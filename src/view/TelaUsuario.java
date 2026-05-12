@@ -6,10 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TelaUsuario extends JFrame {
-    private UsuarioController controller;
 
     public TelaUsuario(UsuarioController controller) {
-        this.controller = controller;
         setTitle("Gestão de Usuários");
         setSize(400, 500);
         setLayout(new GridLayout(9, 2));

@@ -4,17 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuPrincipal extends JFrame {
-    private TelaUsuario telaUsuario;
-    private TelaProjeto telaProjeto;
-    private TelaEquipe telaEquipe;
-    private TelaTarefa telaTarefa;
 
     public MenuPrincipal(TelaUsuario telaUsuario, TelaProjeto telaProjeto, TelaEquipe telaEquipe, TelaTarefa telaTarefa) {
-        this.telaUsuario = telaUsuario;
-        this.telaProjeto = telaProjeto;
-        this.telaEquipe = telaEquipe;
-        this.telaTarefa = telaTarefa;
-
         setTitle("Sistema de Gestão - Projeto A3");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

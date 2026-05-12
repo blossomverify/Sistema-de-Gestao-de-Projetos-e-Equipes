@@ -8,12 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TelaProjeto extends JFrame {
-    private ProjetoController controller;
-    private UsuarioController usuarioController;
 
     public TelaProjeto(ProjetoController controller, UsuarioController usuarioController) {
-        this.controller = controller;
-        this.usuarioController = usuarioController;
         setTitle("Gestão de Projetos");
         setSize(400, 400);
         setLayout(new GridLayout(7, 2));

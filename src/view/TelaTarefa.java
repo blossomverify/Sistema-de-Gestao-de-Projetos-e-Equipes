@@ -7,12 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TelaTarefa extends JFrame {
-    private TarefaController controller;
-    private UsuarioController usuarioController;
 
     public TelaTarefa(TarefaController controller, UsuarioController usuarioController) {
-        this.controller = controller;
-        this.usuarioController = usuarioController;
         setTitle("Gestão de Tarefas");
         setSize(400, 400);
         setLayout(new GridLayout(6, 2));

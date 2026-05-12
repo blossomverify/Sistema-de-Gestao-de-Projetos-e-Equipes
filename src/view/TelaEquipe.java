@@ -8,12 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TelaEquipe extends JFrame {
-    private EquipeController controller;
-    private UsuarioController usuarioController;
 
     public TelaEquipe(EquipeController controller, UsuarioController usuarioController) {
-        this.controller = controller;
-        this.usuarioController = usuarioController;
         setTitle("Gestão de Equipes");
         setSize(400, 300);
         setLayout(new GridLayout(4, 2));
