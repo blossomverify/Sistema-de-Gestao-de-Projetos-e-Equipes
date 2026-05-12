@@ -1,33 +1,41 @@
 # Sistema de Gestão de Projetos e Equipes
 
-![Banner](https://raw.githubusercontent.com/blossomverify/Sistema-de-Gestao-de-Projetos-e-Equipes/main/docs/banner.png)
+![Status](https://img.shields.io/badge/Status-Desenvolvimento-green?style=for-the-badge)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
 Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, utilizando Java e o padrão de arquitetura MVC.
+
+## 🚀 Funcionalidades
+
+- **Gestão de Usuários**: Cadastro e controle de perfis de acesso.
+- **Gestão de Equipes**: Organização de membros em grupos de trabalho.
+- **Gestão de Projetos**: Controle de prazos, status e atribuição de equipes.
+- **Gestão de Tarefas**: Detalhamento de atividades vinculadas a projetos.
+- **Interface Gráfica**: Telas amigáveis desenvolvidas em Java Swing.
 
 ## 🛠 Tecnologias e Padrões
 
 - **Linguagem**: Java (JDK 17+)
 - **Banco de Dados**: MySQL (Porta 3306)
 - **Interface**: Java Swing (GUI)
-- **Arquitetura**: Padrão MVC
+- **Arquitetura**: MVC (Model-View-Controller)
+- **Persistência**: JDBC (Java Database Connectivity)
 
 ## 📁 Estrutura do Projeto
 
-- `src/model/`: Classes de domínio.
-- `src/view/`: Interface Gráfica Java Swing.
-- `src/controller/`: Regras de negócio.
-- `src/repository/`: Persistência via JDBC.
-- `src/util/`: Conexão de Banco.
-- `lib/`: Driver JDBC MySQL (Incluso).
+- `src/model/`: Classes de domínio e entidades.
+- `src/view/`: Interface Gráfica com Java Swing.
+- `src/controller/`: Lógica de controle e regras de negócio.
+- `src/repository/`: Camada de acesso a dados (DAO/Repository).
+- `src/util/`: Utilitários e configuração de conexão.
+- `lib/`: Dependências externas (Driver JDBC).
 
 ## 🚀 Guia de Configuração (Para o Projeto Funcionar)
 
 ### 1. Banco de Dados (Obrigatório)
 O sistema não inicia sem o banco de dados configurado e **LIGADO**.
-- Abra o seu painel do **XAMPP** ou **WampServer**.
-- Clique em **START** no módulo **MySQL**.
-- Clique em **Admin** (ou abra o phpMyAdmin) e importe o arquivo `database.sql`.
+- Abra o seu painel do **MySQL** (ou XAMPP).
+- Execute o conteúdo do arquivo `database.sql` para criar o banco `projeto_a3`.
 - **Importante**: O sistema está configurado para o usuário `root` sem senha. Se o seu MySQL tiver senha, altere na classe `src/util/DatabaseConnection.java`.
 
 ### 2. Configuração do Driver JDBC no VS Code
@@ -43,9 +51,8 @@ O Java precisa do driver para "falar" com o MySQL.
 
 ## ❌ Solução de Problemas (Se não iniciar)
 
-- **Communications link failure:** Isso significa que o seu **MySQL está desligado**. Abra o XAMPP e clique em START no MySQL.
+- **Communications link failure:** Isso significa que o seu **MySQL está desligado**. Ligue o serviço do MySQL no seu computador.
 - **Erro "No suitable driver found":** Significa que o passo 2 não foi feito corretamente. Adicione o JAR da pasta `lib` nas bibliotecas do projeto.
 - **Erro "Access denied for user":** Verifique seu usuário e senha do MySQL na classe `src/util/DatabaseConnection.java`.
 
 Este projeto segue as diretrizes de código limpo, sem comentários no fonte.
-
