@@ -6,32 +6,43 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 
 ## 🛠 Tecnologias e Padrões
 
-- **Linguagem**: Java
-- **Banco de Dados**: MySQL
-- **Controle de Versão**: Git e GitHub
-- **Arquitetura**: Padrão MVC (Model, View, Controller)
+- **Linguagem**: Java (JDK 17+)
+- **Banco de Dados**: MySQL (Porta 3306)
+- **Interface**: Java Swing (GUI)
+- **Arquitetura**: Padrão MVC
 
 ## 📁 Estrutura do Projeto
 
-O sistema foi estruturado seguindo boas práticas de programação orientada a objetos:
-
-- `src/model/`: Classes de domínio (Ex: Usuario, Projeto).
+- `src/model/`: Classes de domínio.
 - `src/view/`: Interface Gráfica Java Swing.
 - `src/controller/`: Regras de negócio.
-- `src/repository/`: Persistência de dados via JDBC (MySQL).
-- `src/util/`: Utilitários (Conexão de Banco).
-- `lib/`: Driver JDBC do MySQL.
+- `src/repository/`: Persistência via JDBC.
+- `src/util/`: Conexão de Banco.
+- `lib/`: Driver JDBC MySQL (Incluso).
 
-## 🚀 Como Executar
+## 🚀 Guia de Configuração (Para o Projeto Funcionar)
 
-1. **Requisitos:** Tenha o Java JDK e o MySQL instalados.
-2. **Banco de Dados:**
-   - Certifique-se de que o MySQL está rodando.
-   - Execute o script `database.sql` no seu MySQL para criar o banco e as tabelas.
-3. **Driver JDBC (VS Code):**
-   - No menu lateral do Java, vá em `Referenced Libraries`.
-   - Clique no `+` e selecione o arquivo `lib/mysql-connector-j-8.0.33.jar`.
-4. **Executar:**
-   - Rode o arquivo `src/Main.java`.
+### 1. Banco de Dados (Obrigatório)
+O sistema não inicia sem o banco de dados configurado.
+- Abra o seu MySQL (XAMPP, WampServer ou MySQL Workbench).
+- Execute o conteúdo do arquivo `database.sql` para criar o banco `projeto_a3`.
+- **Importante**: O sistema está configurado para o usuário `root` sem senha. Se o seu MySQL tiver senha, altere na classe `src/util/DatabaseConnection.java`.
 
-Este projeto foi desenvolvido sem comentários no código fonte, prezando pela legibilidade e código limpo.
+### 2. Configuração do Driver JDBC no VS Code
+O Java precisa do driver para "falar" com o MySQL.
+- No VS Code, clique no ícone do Java (Xícara) na barra lateral esquerda.
+- Procure por **"Referenced Libraries"**.
+- Clique no botão **"+"** (Add Library).
+- Selecione o arquivo: `lib/mysql-connector-j-8.0.33.jar`.
+
+### 3. Execução
+- Clique com o botão direito no arquivo `src/Main.java`.
+- Selecione **"Run Java"**.
+
+## ❌ Solução de Problemas (Se não iniciar)
+
+- **Erro "No suitable driver found":** Significa que o passo 2 não foi feito corretamente. Adicione o JAR da pasta `lib` nas bibliotecas do projeto.
+- **Erro "Access denied for user":** Verifique seu usuário e senha do MySQL na classe `src/util/DatabaseConnection.java`.
+- **O Banco de Dados está ligado?** Certifique-se de que o serviço do MySQL está ativo no seu computador.
+
+Este projeto segue as diretrizes de código limpo, sem comentários no fonte.
