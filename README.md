@@ -30,13 +30,13 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 - `src/util/`: Utilitários e configuração de conexão.
 - `lib/`: Dependências externas (Driver JDBC).
 
-## 🚀 Guia de Configuração (Para o Projeto Funcionar)
+## ⚙️ Guia de Configuração
 
 ### 1. Banco de Dados (Obrigatório)
 O sistema não inicia sem o banco de dados configurado e **LIGADO**.
-- Abra o seu painel do **MySQL** (ou XAMPP).
-- Execute o conteúdo do arquivo `database.sql` para criar o banco `projeto_a3`.
-- **Importante**: O sistema está configurado para o usuário `root` sem senha. Se o seu MySQL tiver senha, altere na classe `src/util/DatabaseConnection.java`.
+- Abra o seu painel do **MySQL** (Workbench ou XAMPP).
+- Execute o conteúdo do arquivo `database.sql` para criar o banco e as tabelas.
+- **Configuração Atual**: O sistema está configurado para o usuário `root` com a senha `Apolo*654321`. Se precisar alterar, edite a classe `src/util/DatabaseConnection.java`.
 
 ### 2. Configuração do Driver JDBC no VS Code
 O Java precisa do driver para "falar" com o MySQL.
@@ -49,10 +49,10 @@ O Java precisa do driver para "falar" com o MySQL.
 - Clique com o botão direito no arquivo `src/Main.java`.
 - Selecione **"Run Java"**.
 
-## ❌ Solução de Problemas (Se não iniciar)
+## ❌ Solução de Problemas
 
-- **Communications link failure:** Isso significa que o seu **MySQL está desligado**. Ligue o serviço do MySQL no seu computador.
-- **Erro "No suitable driver found":** Significa que o passo 2 não foi feito corretamente. Adicione o JAR da pasta `lib` nas bibliotecas do projeto.
-- **Erro "Access denied for user":** Verifique seu usuário e senha do MySQL na classe `src/util/DatabaseConnection.java`.
+- **Communications link failure**: O seu **MySQL está desligado**. Ligue o serviço do MySQL ou XAMPP.
+- **Access denied for user**: A senha no banco é diferente de `Apolo*654321`. Ajuste em `DatabaseConnection.java`.
+- **Unknown database 'projeto_a3'**: Você esqueceu de rodar o `database.sql`.
 
 Este projeto segue as diretrizes de código limpo, sem comentários no fonte.
