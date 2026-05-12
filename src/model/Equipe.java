@@ -1,13 +1,22 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Equipe {
 
     private String nome;
     private String descricao;
-    private String membros;
+    private List<Usuario> membros;
+
+    public Equipe(String nome, String descricao) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.membros = new ArrayList<>();
+    }
 
     public String getNome() {
-        return this.nome;
+        return nome;
     }
 
     public void setNome(String nome) {
@@ -15,20 +24,22 @@ public class Equipe {
     }
 
     public String getDescricao() {
-        return this.descricao;
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
-    public String getMembros() {
-        return this.membros;
+    public List<Usuario> getMembros() {
+        return membros;
     }
 
-    public void setMembros(String membros) {
-        this.membros = membros;
+    public void adicionarMembro(Usuario usuario) {
+        this.membros.add(usuario);
     }
-    
 
+    public void removerMembro(Usuario usuario) {
+        this.membros.remove(usuario);
+    }
 }

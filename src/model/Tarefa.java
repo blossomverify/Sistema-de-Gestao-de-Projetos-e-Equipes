@@ -3,10 +3,18 @@ package model;
 public class Tarefa {
 
     private String titulo;
-    private String responsavel;
+    private Usuario responsavel;
     private String dataInicio;
     private String dataTermino;
     private String status;
+
+    public Tarefa(String titulo, Usuario responsavel, String dataInicio, String dataTermino, String status) {
+        this.titulo = titulo;
+        this.responsavel = responsavel;
+        this.dataInicio = dataInicio;
+        this.dataTermino = dataTermino;
+        this.status = status;
+    }
 
     public String getTitulo() {
         return this.titulo;
@@ -16,11 +24,11 @@ public class Tarefa {
         this.titulo = titulo;
     }
 
-    public String getResponsavel() {
+    public Usuario getResponsavel() {
         return this.responsavel;
     }
 
-    public void setResponsavel(String responsavel) {
+    public void setResponsavel(Usuario responsavel) {
         this.responsavel = responsavel;
     }
 
@@ -47,6 +55,4 @@ public class Tarefa {
     public void setStatus(String status) {
         this.status = status;
     }
-
-
 }

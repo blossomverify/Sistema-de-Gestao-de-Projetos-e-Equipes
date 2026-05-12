@@ -10,12 +10,13 @@ public class Usuario {
     private String senha;
     private Perfil perfil;
 
-    public Usuario(String nomeCompleto, String cpf, String email, String cargo, String login, Perfil perfil) {
+    public Usuario(String nomeCompleto, String cpf, String email, String cargo, String login, String senha, Perfil perfil) {
         this.nomeCompleto = nomeCompleto;
         this.cpf = cpf;
         this.email = email;
         this.cargo = cargo;
         this.login = login;
+        definirSenha(senha);
         this.perfil = perfil;
     }
 
