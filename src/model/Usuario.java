@@ -1,33 +1,42 @@
 package model;
 
-public class Usuario { 
+public class Usuario {
 
-    private String nome;
-    private String senha;
+    private String nomeCompleto;
+    private String cpf;
     private String email;
     private String cargo;
     private String login;
-    private String perfil;
-    
+    private String senha;
+    private Perfil perfil;
 
-    public String getNome() {
-        return this.nome;
+    public Usuario(String nomeCompleto, String cpf, String email, String cargo, String login, Perfil perfil) {
+        this.nomeCompleto = nomeCompleto;
+        this.cpf = cpf;
+        this.email = email;
+        this.cargo = cargo;
+        this.login = login;
+        this.perfil = perfil;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getNomeCompleto() {
+        return nomeCompleto;
     }
 
-    public String getSenha() {
-        return this.senha;
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -35,7 +44,7 @@ public class Usuario {
     }
 
     public String getCargo() {
-        return this.cargo;
+        return cargo;
     }
 
     public void setCargo(String cargo) {
@@ -43,20 +52,34 @@ public class Usuario {
     }
 
     public String getLogin() {
-        return this.login;
+        return login;
     }
 
     public void setLogin(String login) {
         this.login = login;
     }
 
-    public String getPerfil() {
-        return this.perfil;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPerfil(String perfil) {
+    public void definirSenha(String novaSenha) {
+        if (novaSenha.length() >= 8) {
+            this.senha = criptografar(novaSenha);
+        } else {
+            throw new IllegalArgumentException("A senha deve ter no mínimo 8 caracteres.");
+        }
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
 
-
+    private String criptografar(String senha) {
+        return "hash_seguro_" + senha;
+    }
 }
