@@ -7,7 +7,7 @@
 
 Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, utilizando Java e o padrão de arquitetura MVC.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - **Gestão de Usuários**: Cadastro e controle de perfis de acesso.
 - **Gestão de Equipes**: Organização de membros em grupos de trabalho.
@@ -15,7 +15,7 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 - **Gestão de Tarefas**: Detalhamento de atividades vinculadas a projetos.
 - **Interface Gráfica**: Telas amigáveis desenvolvidas em Java Swing.
 
-## 🛠 Tecnologias e Padrões
+## Tecnologias e Padrões
 
 - **Linguagem**: Java (JDK 17+)
 - **Banco de Dados**: MySQL (Porta 3306)
@@ -23,7 +23,7 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 - **Arquitetura**: MVC (Model-View-Controller)
 - **Persistência**: JDBC (Java Database Connectivity)
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 - `src/model/`: Classes de domínio e entidades.
 - `src/view/`: Interface Gráfica com Java Swing.
@@ -32,7 +32,7 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 - `src/util/`: Utilitários e configuração de conexão.
 - `lib/`: Dependências externas (Driver JDBC).
 
-## ⚙️ Guia de Configuração
+## Guia de Configuração
 
 ### 1. Banco de Dados (Obrigatório)
 O sistema não inicia sem o banco de dados configurado e **LIGADO**.
@@ -51,7 +51,7 @@ O Java precisa do driver para "falar" com o MySQL.
 - Clique com o botão direito no arquivo `src/Main.java`.
 - Selecione **"Run Java"**.
 
-## ❌ Solução de Problemas
+## Solução de Problemas
 
 - **Communications link failure**: O seu **MySQL está desligado**. Ligue o serviço do MySQL ou XAMPP.
 - **Access denied for user**: A senha no banco é diferente de `Apolo*654321`. Ajuste em `DatabaseConnection.java`.
