@@ -6,13 +6,13 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/projeto_a3";
-    private static final String USER = "root";
-    private static final String PASSWORD = "Apolo*654321";
+    private static final String url = "jdbc:mysql://localhost:3306/projeto_a3";
+    private static final String user = "root";
+    private static final String password = "011020";
 
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+            return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             String mensagem = "Erro ao conectar ao banco de dados!";
             
