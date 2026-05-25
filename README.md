@@ -38,7 +38,7 @@ Sistema desenvolvido para gerenciamento eficaz de projetos, tarefas e equipes, u
 O sistema não inicia sem o banco de dados configurado e **LIGADO**.
 - Abra o seu painel do **MySQL** (Workbench ou XAMPP).
 - Execute o conteúdo do arquivo `database.sql` para criar o banco e as tabelas.
-- **Configuração Atual**: O sistema está configurado para o usuário `root` com a senha `Apolo*654321`. Se precisar alterar, edite a classe `src/util/DatabaseConnection.java`.
+- **Configuração Atual**: O sistema está configurado para o usuário `root` com a senha `011020`. Se precisar alterar, edite a classe `src/util/DatabaseConnection.java`.
 
 ### 2. Configuração do Driver JDBC no VS Code
 O Java precisa do driver para "falar" com o MySQL.
