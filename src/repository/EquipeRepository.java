@@ -16,28 +16,31 @@ public class EquipeRepository {
     public void salvar(Equipe equipe) {
         String sqlEquipe = "INSERT INTO equipes (nome, descricao) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sqlEquipe)) {
+             PreparedStatement stmt = conn.prepareStatement(sqlEquipe, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, equipe.getNome());
             stmt.setString(2, equipe.getDescricao());
             stmt.executeUpdate();
-            salvarMembros(equipe);
+            // Recupera o ID gerado automaticamente e define no objeto
+            try (ResultSet keys = stmt.getGeneratedKeys()) {
+                if (keys.next()) {
+                    equipe.setId(keys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar equipe", e);
         }
     }
 
-    private void salvarMembros(Equipe equipe) {
-        String sqlMembro = "INSERT INTO equipe_membros (equipe_nome, usuario_login) VALUES (?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection()) {
-            for (Usuario membro : equipe.getMembros()) {
-                try (PreparedStatement stmt = conn.prepareStatement(sqlMembro)) {
-                    stmt.setString(1, equipe.getNome());
-                    stmt.setString(2, membro.getLogin());
-                    stmt.executeUpdate();
-                }
-            }
+    // Corrigido: usa equipe_id e usuario_id (INT FK) em vez de nomes/logins que não existem
+    public void adicionarMembroDB(int equipeId, int usuarioId) {
+        String sqlMembro = "INSERT INTO equipe_membros (equipe_id, usuario_id) VALUES (?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sqlMembro)) {
+            stmt.setInt(1, equipeId);
+            stmt.setInt(2, usuarioId);
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar membros da equipe", e);
+            throw new RuntimeException("Erro ao adicionar membro na equipe", e);
         }
     }
 
@@ -49,6 +52,7 @@ public class EquipeRepository {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Equipe equipe = new Equipe(rs.getString("nome"), rs.getString("descricao"));
+                equipe.setId(rs.getInt("id"));
                 carregarMembros(equipe);
                 equipes.add(equipe);
             }
@@ -58,14 +62,15 @@ public class EquipeRepository {
         return equipes;
     }
 
+    // Corrigido: busca membros por equipe_id (INT FK) em vez de equipe_nome que não existe
     private void carregarMembros(Equipe equipe) {
-        String sql = "SELECT usuario_login FROM equipe_membros WHERE equipe_nome = ?";
+        String sql = "SELECT u.login FROM equipe_membros em JOIN usuarios u ON em.usuario_id = u.id WHERE em.equipe_id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, equipe.getNome());
+            stmt.setInt(1, equipe.getId());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    usuarioRepository.buscarPorLogin(rs.getString("usuario_login"))
+                    usuarioRepository.buscarPorLogin(rs.getString("login"))
                             .ifPresent(equipe::adicionarMembro);
                 }
             }

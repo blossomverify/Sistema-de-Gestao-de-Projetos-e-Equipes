@@ -14,11 +14,12 @@ public class TarefaRepository {
     private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
     public void salvar(Tarefa tarefa) {
-        String sql = "INSERT INTO tarefas (titulo, responsavel_login, data_inicio, data_termino, status) VALUES (?, ?, ?, ?, ?)";
+        // Corrigido: usa responsavel_id (INT FK) em vez de responsavel_login que não existe
+        String sql = "INSERT INTO tarefas (titulo, responsavel_id, data_inicio, data_termino, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, tarefa.getTitulo());
-            stmt.setString(2, tarefa.getResponsavel().getLogin());
+            stmt.setInt(2, tarefa.getResponsavel().getId());
             stmt.setString(3, tarefa.getDataInicio());
             stmt.setString(4, tarefa.getDataTermino());
             stmt.setString(5, tarefa.getStatus());
@@ -30,7 +31,8 @@ public class TarefaRepository {
 
     public List<Tarefa> listarTodas() {
         List<Tarefa> tarefas = new ArrayList<>();
-        String sql = "SELECT * FROM tarefas";
+        // Corrigido: JOIN para buscar o responsável pelo ID correto
+        String sql = "SELECT t.*, u.login as responsavel_login FROM tarefas t LEFT JOIN usuarios u ON t.responsavel_id = u.id";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

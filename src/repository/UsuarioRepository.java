@@ -49,6 +49,7 @@ public class UsuarioRepository {
                 );
                 // Sobrescreve com a senha já criptografada do banco (evita dupla criptografia)
                 usuario.setSenha(rs.getString("senha"));
+                usuario.setId(rs.getInt("id"));
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -76,6 +77,7 @@ public class UsuarioRepository {
                     );
                     // Sobrescreve com a senha já criptografada do banco (evita dupla criptografia)
                     usuario.setSenha(rs.getString("senha"));
+                    usuario.setId(rs.getInt("id"));
                     return Optional.of(usuario);
                 }
             }

@@ -19,6 +19,8 @@ public class EquipeController {
 
     public void adicionarMembro(Equipe equipe, Usuario usuario) {
         equipe.adicionarMembro(usuario);
+        // Corrigido: agora persiste o membro no banco de dados
+        repository.adicionarMembroDB(equipe.getId(), usuario.getId());
     }
 
     public List<Equipe> listarEquipes() {

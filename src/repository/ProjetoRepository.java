@@ -15,7 +15,8 @@ public class ProjetoRepository {
     private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
     public void salvar(Projeto projeto) {
-        String sql = "INSERT INTO projetos (nome, descricao, data_inicio, data_termino, status, gerente_login) VALUES (?, ?, ?, ?, ?, ?)";
+        // Corrigido: usa gerente_id (INT FK) em vez de gerente_login que não existe
+        String sql = "INSERT INTO projetos (nome, descricao, data_inicio, data_termino, status, gerente_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, projeto.getNome());
@@ -23,7 +24,7 @@ public class ProjetoRepository {
             stmt.setString(3, projeto.getDataInicio());
             stmt.setString(4, projeto.getDataTermino());
             stmt.setString(5, projeto.getStatus().name());
-            stmt.setString(6, projeto.getGerenteResponsavel().getLogin());
+            stmt.setInt(6, projeto.getGerenteResponsavel().getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar projeto", e);
@@ -32,7 +33,8 @@ public class ProjetoRepository {
 
     public List<Projeto> listarTodos() {
         List<Projeto> projetos = new ArrayList<>();
-        String sql = "SELECT * FROM projetos";
+        // Corrigido: JOIN para buscar o gerente pelo ID correto
+        String sql = "SELECT p.*, u.login as gerente_login FROM projetos p LEFT JOIN usuarios u ON p.gerente_id = u.id";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
