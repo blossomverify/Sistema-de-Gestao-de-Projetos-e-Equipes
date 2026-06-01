@@ -37,15 +37,18 @@ public class UsuarioRepository {
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
+                // Senha temporária válida para passar a validação do construtor
                 Usuario usuario = new Usuario(
                         rs.getString("nome_completo"),
                         rs.getString("cpf"),
                         rs.getString("email"),
                         rs.getString("cargo"),
                         rs.getString("login"),
-                        rs.getString("senha"),
+                        "placeholder12345",
                         Perfil.valueOf(rs.getString("perfil"))
                 );
+                // Sobrescreve com a senha já criptografada do banco (evita dupla criptografia)
+                usuario.setSenha(rs.getString("senha"));
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
@@ -61,15 +64,18 @@ public class UsuarioRepository {
             stmt.setString(1, login);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    // Senha temporária válida para passar a validação do construtor
                     Usuario usuario = new Usuario(
                             rs.getString("nome_completo"),
                             rs.getString("cpf"),
                             rs.getString("email"),
                             rs.getString("cargo"),
                             rs.getString("login"),
-                            rs.getString("senha"),
+                            "placeholder12345",
                             Perfil.valueOf(rs.getString("perfil"))
                     );
+                    // Sobrescreve com a senha já criptografada do banco (evita dupla criptografia)
+                    usuario.setSenha(rs.getString("senha"));
                     return Optional.of(usuario);
                 }
             }

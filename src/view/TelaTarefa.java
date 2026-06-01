@@ -16,7 +16,7 @@ public class TelaTarefa extends JFrame {
         JTextField txtTitulo = new JTextField();
         JTextField txtInicio = new JTextField();
         JTextField txtTermino = new JTextField();
-        JTextField txtStatus = new JTextField();
+        JComboBox<String> comboStatus = new JComboBox<>(new String[]{"PENDENTE", "EM_ANDAMENTO", "CONCLUIDA"});
         JComboBox<String> comboResponsavel = new JComboBox<>();
         usuarioController.listarUsuarios().forEach(u -> comboResponsavel.addItem(u.getLogin()));
 
@@ -29,7 +29,7 @@ public class TelaTarefa extends JFrame {
         add(new JLabel("Data Término:"));
         add(txtTermino);
         add(new JLabel("Status:"));
-        add(txtStatus);
+        add(comboStatus);
 
         JButton btnSalvar = new JButton("Criar");
         btnSalvar.addActionListener(e -> {
@@ -40,7 +40,7 @@ public class TelaTarefa extends JFrame {
                     responsavel,
                     txtInicio.getText(),
                     txtTermino.getText(),
-                    txtStatus.getText()
+                    (String) comboStatus.getSelectedItem()
                 );
                 JOptionPane.showMessageDialog(this, "Tarefa criada!");
                 dispose();

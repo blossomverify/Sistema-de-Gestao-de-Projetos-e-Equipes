@@ -64,6 +64,11 @@ public class Usuario {
         return senha;
     }
 
+    // Usado apenas ao carregar do banco (senha já está criptografada)
+    public void setSenha(String senhaJaCriptografada) {
+        this.senha = senhaJaCriptografada;
+    }
+
     public void definirSenha(String novaSenha) {
         if (novaSenha.length() >= 8) {
             this.senha = criptografar(novaSenha);
