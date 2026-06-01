@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Equipe {
 
+    private int id;
     private String nome;
     private String descricao;
     private List<Usuario> membros;
@@ -13,6 +14,14 @@ public class Equipe {
         this.nome = nome;
         this.descricao = descricao;
         this.membros = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {

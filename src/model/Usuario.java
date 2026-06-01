@@ -2,6 +2,7 @@ package model;
 
 public class Usuario {
 
+    private int id;
     private String nomeCompleto;
     private String cpf;
     private String email;
@@ -18,6 +19,14 @@ public class Usuario {
         this.login = login;
         definirSenha(senha);
         this.perfil = perfil;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNomeCompleto() {
