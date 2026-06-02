@@ -20,8 +20,14 @@ public class TarefaRepository {
             stmt.setString(1, tarefa.getTitulo());
             stmt.setString(2, tarefa.getDescricao());
             stmt.setInt(3, tarefa.getResponsavel().getId());
-            stmt.setString(4, tarefa.getDataInicio());
-            stmt.setString(5, tarefa.getDataTermino());
+            stmt.setDate(4, java.sql.Date.valueOf(tarefa.getDataInicio()));
+            
+            if (tarefa.getDataTermino() != null) {
+                stmt.setDate(5, java.sql.Date.valueOf(tarefa.getDataTermino()));
+            } else {
+                stmt.setNull(5, java.sql.Types.DATE);
+            }
+            
             stmt.setString(6, tarefa.getStatus());
             stmt.executeUpdate();
 
@@ -31,7 +37,9 @@ public class TarefaRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar tarefa", e);
+            throw new RuntimeException("Erro ao salvar tarefa no banco de dados", e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Formato de data inválido na tarefa. Use AAAA-MM-DD.", e);
         }
     }
 
@@ -43,12 +51,16 @@ public class TarefaRepository {
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Usuario responsavel = usuarioRepository.buscarPorLogin(rs.getString("responsavel_login")).orElse(null);
+                
+                java.sql.Date dInicio = rs.getDate("data_inicio");
+                java.sql.Date dTermino = rs.getDate("data_termino");
+                
                 Tarefa tarefa = new Tarefa(
                         rs.getString("titulo"),
                         rs.getString("descricao"),
                         responsavel,
-                        rs.getString("data_inicio"),
-                        rs.getString("data_termino"),
+                        dInicio != null ? dInicio.toString() : null,
+                        dTermino != null ? dTermino.toString() : null,
                         rs.getString("status")
                 );
                 tarefa.setId(rs.getInt("id"));
