@@ -18,7 +18,14 @@ public class TelaTarefa extends JFrame {
         JTextField txtTermino = new JTextField("AAAA-MM-DD");
         JComboBox<String> comboStatus = new JComboBox<>(new String[]{"PENDENTE", "EM_ANDAMENTO", "CONCLUIDA"});
         JComboBox<String> comboResponsavel = new JComboBox<>();
-        usuarioController.listarUsuarios().forEach(u -> comboResponsavel.addItem(u.getLogin()));
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowActivated(java.awt.event.WindowEvent e) {
+                comboResponsavel.removeAllItems();
+                usuarioController.listarUsuarios().forEach(u -> comboResponsavel.addItem(u.getLogin()));
+            }
+        });
 
         add(new JLabel("Título:"));
         add(txtTitulo);
@@ -34,8 +41,8 @@ public class TelaTarefa extends JFrame {
         JButton btnSalvar = new JButton("Criar");
         btnSalvar.addActionListener(e -> {
             String titulo = txtTitulo.getText().trim();
-            String inicio = txtInicio.getText().trim();
-            String termino = txtTermino.getText().trim();
+            String inicio = txtInicio.getText().trim().replace("/", "-");
+            String termino = txtTermino.getText().trim().replace("/", "-");
 
             if (titulo.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "O Título da Tarefa é obrigatório.", "Campo vazio", JOptionPane.WARNING_MESSAGE);

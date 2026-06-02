@@ -49,41 +49,48 @@ public class TelaEquipe extends JFrame {
 
         JButton btnMembro = new JButton("Add Membro");
         btnMembro.addActionListener(e -> {
-            String nomeEquipe = JOptionPane.showInputDialog(this, "Nome da Equipe:");
-            if (nomeEquipe == null) return; // Clicou em cancelar
-            nomeEquipe = nomeEquipe.trim();
-            if (nomeEquipe.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Nome da equipe não pode ser vazio.", "Entrada inválida", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+            JComboBox<String> comboEquipes = new JComboBox<>();
+            controller.listarEquipes().forEach(eq -> comboEquipes.addItem(eq.getNome()));
 
-            String loginUser = JOptionPane.showInputDialog(this, "Login do Usuário:");
-            if (loginUser == null) return; // Clicou em cancelar
-            loginUser = loginUser.trim();
-            if (loginUser.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Login do usuário não pode ser vazio.", "Entrada inválida", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
+            JComboBox<String> comboUsuarios = new JComboBox<>();
+            usuarioController.listarUsuarios().forEach(u -> comboUsuarios.addItem(u.getLogin()));
 
-            try {
-                final String teamName = nomeEquipe;
-                Equipe eq = controller.listarEquipes().stream()
-                    .filter(team -> team.getNome().equalsIgnoreCase(teamName))
-                    .findFirst().orElse(null);
-                Usuario user = usuarioController.buscarPorLogin(loginUser).orElse(null);
+            JPanel panel = new JPanel(new GridLayout(2, 2));
+            panel.add(new JLabel("Equipe:"));
+            panel.add(comboEquipes);
+            panel.add(new JLabel("Usuário:"));
+            panel.add(comboUsuarios);
 
-                if (eq != null && user != null) {
-                    controller.adicionarMembro(eq, user);
-                    JOptionPane.showMessageDialog(this, "Membro adicionado com sucesso!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro: Equipe ou Usuário não encontrado.", "Não encontrado", JOptionPane.ERROR_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, panel, "Adicionar Membro à Equipe", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+            if (result == JOptionPane.OK_OPTION) {
+                String nomeEquipe = (String) comboEquipes.getSelectedItem();
+                String loginUser = (String) comboUsuarios.getSelectedItem();
+
+                if (nomeEquipe == null || loginUser == null) {
+                    JOptionPane.showMessageDialog(this, "Selecione uma equipe e um usuário.", "Seleção inválida", JOptionPane.WARNING_MESSAGE);
+                    return;
                 }
-            } catch (RuntimeException ex) {
-                String cause = ex.getCause() != null ? ex.getCause().getMessage() : "";
-                if (cause.contains("PRIMARY") || ex.getMessage().contains("Duplicate entry")) {
-                    JOptionPane.showMessageDialog(this, "Este usuário já faz parte desta equipe.", "Membro duplicado", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Erro ao adicionar membro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+
+                try {
+                    Equipe eq = controller.listarEquipes().stream()
+                        .filter(team -> team.getNome().equalsIgnoreCase(nomeEquipe))
+                        .findFirst().orElse(null);
+                    Usuario user = usuarioController.buscarPorLogin(loginUser).orElse(null);
+
+                    if (eq != null && user != null) {
+                        controller.adicionarMembro(eq, user);
+                        JOptionPane.showMessageDialog(this, "Membro adicionado com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro: Equipe ou Usuário não encontrado.", "Não encontrado", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (RuntimeException ex) {
+                    String cause = ex.getCause() != null ? ex.getCause().getMessage() : "";
+                    if (cause.contains("PRIMARY") || ex.getMessage().contains("Duplicate entry")) {
+                        JOptionPane.showMessageDialog(this, "Este usuário já faz parte desta equipe.", "Membro duplicado", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Erro ao adicionar membro: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
