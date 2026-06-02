@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
-import java.util.List;
 
 public class TelaProjeto extends JFrame {
 
