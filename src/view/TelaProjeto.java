@@ -81,11 +81,26 @@ public class TelaProjeto extends JFrame {
             }
 
             try {
+                // Validação rigorosa de data
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                sdf.setLenient(false);
+                
+                java.util.Date dInicio = sdf.parse(inicio);
+                if (terminoFinal != null) {
+                    java.util.Date dTermino = sdf.parse(terminoFinal);
+                    if (dTermino.before(dInicio)) {
+                        JOptionPane.showMessageDialog(this, "A Data de Término não pode ser anterior à Data de Início.", "Sequência de datas inválida", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
+
                 Usuario gerente = usuarioController.buscarPorLogin((String) comboGerente.getSelectedItem()).orElse(null);
-                controller.criarProjeto(nome, txtDescricao.getText().trim(), inicio, terminoFinal,
+                controller.criarProjeto(nome, txtDescricao.getText().trim(), sdf.format(dInicio), terminoFinal != null ? sdf.format(sdf.parse(terminoFinal)) : null,
                         (StatusProjeto) comboStatus.getSelectedItem(), gerente);
                 JOptionPane.showMessageDialog(this, "Projeto criado com sucesso!");
                 dispose();
+            } catch (java.text.ParseException ex) {
+                JOptionPane.showMessageDialog(this, "Uma das datas informadas é inválida ou não existe (ex: 31 de fevereiro).\nVerifique o dia e o mês.", "Data inexistente", JOptionPane.WARNING_MESSAGE);
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage(), "Dados inválidos", JOptionPane.WARNING_MESSAGE);
             } catch (Exception ex) {

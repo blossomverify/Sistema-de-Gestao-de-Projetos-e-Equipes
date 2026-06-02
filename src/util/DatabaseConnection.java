@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class DatabaseConnection {
-    private static final String url = "jdbc:mysql://localhost:3306/projeto_a3";
+    private static final String url = "jdbc:mysql://localhost:3306/projeto_a3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String user = "root";
     private static final String password = "";
 

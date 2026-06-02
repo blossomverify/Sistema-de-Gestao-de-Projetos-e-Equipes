@@ -83,17 +83,32 @@ public class TelaTarefa extends JFrame {
             }
 
             try {
+                // Validação rigorosa de data
+                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                sdf.setLenient(false);
+
+                java.util.Date dInicio = sdf.parse(inicio);
+                if (terminoFinal != null) {
+                    java.util.Date dTermino = sdf.parse(terminoFinal);
+                    if (dTermino.before(dInicio)) {
+                        JOptionPane.showMessageDialog(this, "A Data de Término não pode ser anterior à Data de Início.", "Sequência de datas inválida", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                }
+
                 Usuario responsavel = usuarioController.buscarPorLogin((String) comboResponsavel.getSelectedItem()).orElse(null);
                 controller.criarTarefa(
                     titulo,
                     descricao,
                     responsavel,
-                    inicio,
-                    terminoFinal,
+                    sdf.format(dInicio),
+                    terminoFinal != null ? sdf.format(sdf.parse(terminoFinal)) : null,
                     (String) comboStatus.getSelectedItem()
                 );
                 JOptionPane.showMessageDialog(this, "Tarefa criada com sucesso!");
                 dispose();
+            } catch (java.text.ParseException ex) {
+                JOptionPane.showMessageDialog(this, "Uma das datas informadas é inválida ou não existe (ex: 31 de fevereiro).\nVerifique o dia e o mês.", "Data inexistente", JOptionPane.WARNING_MESSAGE);
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao criar tarefa: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }

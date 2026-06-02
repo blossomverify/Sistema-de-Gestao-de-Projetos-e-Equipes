@@ -95,6 +95,9 @@ public class Usuario {
     }
 
     private String criptografar(String senha) {
+        if (senha.startsWith("hash_seguro_")) {
+            return senha;
+        }
         return "hash_seguro_" + senha;
     }
 }
