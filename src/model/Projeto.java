@@ -2,6 +2,7 @@ package model;
 
 public class Projeto {
     
+    private int id;
     private String nome;
     private String descricao;
     private String dataInicio;
@@ -16,6 +17,14 @@ public class Projeto {
         this.dataTermino = dataTermino;
         this.status = status;
         this.gerenteResponsavel = gerenteResponsavel;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {

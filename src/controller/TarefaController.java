@@ -12,8 +12,8 @@ public class TarefaController {
         this.repository = repository;
     }
 
-    public void criarTarefa(String titulo, Usuario responsavel, String inicio, String termino, String status) {
-        Tarefa tarefa = new Tarefa(titulo, responsavel, inicio, termino, status);
+    public void criarTarefa(String titulo, String descricao, Usuario responsavel, String inicio, String termino, String status) {
+        Tarefa tarefa = new Tarefa(titulo, descricao, responsavel, inicio, termino, status);
         repository.salvar(tarefa);
     }
 

@@ -12,10 +12,11 @@ public class TelaTarefa extends JFrame {
 
     public TelaTarefa(TarefaController controller, UsuarioController usuarioController) {
         setTitle("Gestão de Tarefas");
-        setSize(400, 400);
-        setLayout(new GridLayout(6, 2));
+        setSize(400, 450);
+        setLayout(new GridLayout(7, 2));
 
         JTextField txtTitulo = new JTextField();
+        JTextField txtDescricao = new JTextField();
         
         JFormattedTextField txtInicio = createDateField();
         JFormattedTextField txtTermino = createDateField();
@@ -33,6 +34,8 @@ public class TelaTarefa extends JFrame {
 
         add(new JLabel("Título:"));
         add(txtTitulo);
+        add(new JLabel("Descrição:"));
+        add(txtDescricao);
         add(new JLabel("Responsável (Login):"));
         add(comboResponsavel);
         add(new JLabel("Data Início (AAAA-MM-DD):"));
@@ -45,6 +48,7 @@ public class TelaTarefa extends JFrame {
         JButton btnSalvar = new JButton("Criar");
         btnSalvar.addActionListener(e -> {
             String titulo = txtTitulo.getText().trim();
+            String descricao = txtDescricao.getText().trim();
             String inicio = txtInicio.getText().trim();
             String termino = txtTermino.getText().trim();
 
@@ -82,6 +86,7 @@ public class TelaTarefa extends JFrame {
                 Usuario responsavel = usuarioController.buscarPorLogin((String) comboResponsavel.getSelectedItem()).orElse(null);
                 controller.criarTarefa(
                     titulo,
+                    descricao,
                     responsavel,
                     inicio,
                     terminoFinal,

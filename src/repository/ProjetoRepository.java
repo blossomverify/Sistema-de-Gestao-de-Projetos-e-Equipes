@@ -18,7 +18,7 @@ public class ProjetoRepository {
         // Corrigido: usa gerente_id (INT FK) em vez de gerente_login que não existe
         String sql = "INSERT INTO projetos (nome, descricao, data_inicio, data_termino, status, gerente_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, projeto.getNome());
             stmt.setString(2, projeto.getDescricao());
             stmt.setString(3, projeto.getDataInicio());
@@ -26,6 +26,12 @@ public class ProjetoRepository {
             stmt.setString(5, projeto.getStatus().name());
             stmt.setInt(6, projeto.getGerenteResponsavel().getId());
             stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    projeto.setId(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar projeto", e);
         }
@@ -48,6 +54,7 @@ public class ProjetoRepository {
                         StatusProjeto.valueOf(rs.getString("status")),
                         gerente
                 );
+                projeto.setId(rs.getInt("id"));
                 projetos.add(projeto);
             }
         } catch (SQLException e) {

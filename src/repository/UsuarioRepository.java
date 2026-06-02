@@ -16,7 +16,7 @@ public class UsuarioRepository {
     public void salvar(Usuario usuario) {
         String sql = "INSERT INTO usuarios (nome_completo, cpf, email, cargo, login, senha, perfil) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, usuario.getNomeCompleto());
             stmt.setString(2, usuario.getCpf());
             stmt.setString(3, usuario.getEmail());
@@ -25,6 +25,12 @@ public class UsuarioRepository {
             stmt.setString(6, usuario.getSenha());
             stmt.setString(7, usuario.getPerfil().name());
             stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    usuario.setId(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao salvar usuário no banco de dados", e);
         }
