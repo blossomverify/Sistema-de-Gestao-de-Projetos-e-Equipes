@@ -89,6 +89,8 @@ public class TelaUsuario extends JFrame {
                 );
                 JOptionPane.showMessageDialog(this, "Usuário salvo com sucesso!");
                 dispose();
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Dados inválidos", JOptionPane.WARNING_MESSAGE);
             } catch (RuntimeException ex) {
                 String msg = ex.getMessage() != null ? ex.getMessage() : "";
                 String cause = ex.getCause() != null ? ex.getCause().getMessage() : "";
@@ -102,8 +104,6 @@ public class TelaUsuario extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "Erro ao salvar: " + msg, "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Dados inválidos", JOptionPane.WARNING_MESSAGE);
             }
         });
 

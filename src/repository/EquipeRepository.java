@@ -1,7 +1,6 @@
 package repository;
 
 import model.Equipe;
-import model.Usuario;
 import util.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
