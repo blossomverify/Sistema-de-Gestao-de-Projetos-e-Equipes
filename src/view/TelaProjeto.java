@@ -27,7 +27,9 @@ public class TelaProjeto extends JFrame {
             @Override
             public void windowActivated(java.awt.event.WindowEvent e) {
                 comboGerente.removeAllItems();
-                usuarioController.listarUsuarios().forEach(u -> comboGerente.addItem(u.getLogin()));
+                usuarioController.listarUsuarios().stream()
+                    .filter(u -> u.getPerfil() == model.Perfil.GERENTE || u.getPerfil() == model.Perfil.ADMINISTRADOR)
+                    .forEach(u -> comboGerente.addItem(u.getLogin()));
             }
         });
 

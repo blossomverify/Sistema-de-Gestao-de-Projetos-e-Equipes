@@ -15,14 +15,19 @@ public class ProjetoRepository {
     private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
     public void salvar(Projeto projeto) {
-        // Corrigido: usa gerente_id (INT FK) em vez de gerente_login que não existe
         String sql = "INSERT INTO projetos (nome, descricao, data_inicio, data_termino, status, gerente_id) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, projeto.getNome());
             stmt.setString(2, projeto.getDescricao());
-            stmt.setString(3, projeto.getDataInicio());
-            stmt.setString(4, projeto.getDataTermino());
+            stmt.setDate(3, java.sql.Date.valueOf(projeto.getDataInicio()));
+            
+            if (projeto.getDataTermino() != null) {
+                stmt.setDate(4, java.sql.Date.valueOf(projeto.getDataTermino()));
+            } else {
+                stmt.setNull(4, java.sql.Types.DATE);
+            }
+            
             stmt.setString(5, projeto.getStatus().name());
             stmt.setInt(6, projeto.getGerenteResponsavel().getId());
             stmt.executeUpdate();
@@ -33,24 +38,29 @@ public class ProjetoRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao salvar projeto", e);
+            throw new RuntimeException("Erro ao salvar projeto no banco de dados", e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Formato de data inválido. Use AAAA-MM-DD.", e);
         }
     }
 
     public List<Projeto> listarTodos() {
         List<Projeto> projetos = new ArrayList<>();
-        // Corrigido: JOIN para buscar o gerente pelo ID correto
         String sql = "SELECT p.*, u.login as gerente_login FROM projetos p LEFT JOIN usuarios u ON p.gerente_id = u.id";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 Usuario gerente = usuarioRepository.buscarPorLogin(rs.getString("gerente_login")).orElse(null);
+                
+                java.sql.Date dInicio = rs.getDate("data_inicio");
+                java.sql.Date dTermino = rs.getDate("data_termino");
+                
                 Projeto projeto = new Projeto(
                         rs.getString("nome"),
                         rs.getString("descricao"),
-                        rs.getString("data_inicio"),
-                        rs.getString("data_termino"),
+                        dInicio != null ? dInicio.toString() : null,
+                        dTermino != null ? dTermino.toString() : null,
                         StatusProjeto.valueOf(rs.getString("status")),
                         gerente
                 );
