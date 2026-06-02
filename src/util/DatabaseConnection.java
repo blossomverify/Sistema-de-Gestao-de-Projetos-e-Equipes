@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class DatabaseConnection {
-    private static final String url = "jdbc:mysql://localhost:3306/projeto_a3?useSSL=false&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://127.0.0.1:3306/projeto_a3?useSSL=false&serverTimezone=UTC";
     private static final String user = "root";
     private static final String password = "";
 
@@ -14,6 +14,7 @@ public class DatabaseConnection {
         try {
             return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
+            e.printStackTrace(); // Garante que o erro completo apareça no console
             String mensagem = "Erro ao conectar ao banco de dados!";
             
             if (e.getSQLState().startsWith("08")) {
