@@ -5,7 +5,9 @@ import controller.UsuarioController;
 import model.StatusProjeto;
 import model.Usuario;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.text.ParseException;
 import java.util.List;
 
 public class TelaProjeto extends JFrame {
@@ -17,8 +19,8 @@ public class TelaProjeto extends JFrame {
 
         JTextField txtNome = new JTextField();
         JTextField txtDescricao = new JTextField();
-        JTextField txtInicio = new JTextField("AAAA-MM-DD");
-        JTextField txtTermino = new JTextField("AAAA-MM-DD");
+        JFormattedTextField txtInicio = createDateField();
+        JFormattedTextField txtTermino = createDateField();
         JComboBox<StatusProjeto> comboStatus = new JComboBox<>(StatusProjeto.values());
         JComboBox<String> comboGerente = new JComboBox<>();
 
@@ -46,33 +48,40 @@ public class TelaProjeto extends JFrame {
         JButton btnSalvar = new JButton("Criar");
         btnSalvar.addActionListener(e -> {
             String nome = txtNome.getText().trim();
-            String inicio = txtInicio.getText().trim().replace("/", "-");
-            String termino = txtTermino.getText().trim().replace("/", "-");
+            String inicio = txtInicio.getText().trim();
+            String termino = txtTermino.getText().trim();
 
             // Validações com mensagens personalizadas
             if (nome.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "O campo Nome do Projeto é obrigatório.", "Campo vazio", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (inicio.isEmpty() || inicio.equals("AAAA-MM-DD")) {
-                JOptionPane.showMessageDialog(this, "Informe a Data de Início no formato AAAA-MM-DD.\nExemplo: 2024-01-15", "Data inválida", JOptionPane.WARNING_MESSAGE);
+
+            String inicioLimpo = inicio.replace("_", "").replace("-", "");
+            if (inicioLimpo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Informe a Data de Início.\nExemplo: 2024-01-15", "Data inválida", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+
             if (!inicio.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                JOptionPane.showMessageDialog(this, "Data de Início inválida! Use o formato AAAA-MM-DD.\nExemplo: 2024-01-15", "Data inválida", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Data de Início incompleta ou inválida!\nUse o formato AAAA-MM-DD.", "Data inválida", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (!termino.isEmpty() && !termino.equals("AAAA-MM-DD") && !termino.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                JOptionPane.showMessageDialog(this, "Data de Término inválida! Use o formato AAAA-MM-DD.\nExemplo: 2024-12-31", "Data inválida", JOptionPane.WARNING_MESSAGE);
+
+            String terminoLimpo = termino.replace("_", "").replace("-", "");
+            String terminoFinal = terminoLimpo.isEmpty() ? null : termino;
+
+            if (terminoFinal != null && !terminoFinal.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                JOptionPane.showMessageDialog(this, "Data de Término incompleta ou inválida!\nUse o formato AAAA-MM-DD.", "Data inválida", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+
             if (comboGerente.getItemCount() == 0) {
                 JOptionPane.showMessageDialog(this, "Não há usuários cadastrados para ser gerente.\nCadastre um usuário com perfil GERENTE ou ADMINISTRADOR primeiro.", "Sem gerentes disponíveis", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
             try {
-                String terminoFinal = (termino.equals("AAAA-MM-DD") || termino.isEmpty()) ? null : termino;
                 Usuario gerente = usuarioController.buscarPorLogin((String) comboGerente.getSelectedItem()).orElse(null);
                 controller.criarProjeto(nome, txtDescricao.getText().trim(), inicio, terminoFinal,
                         (StatusProjeto) comboStatus.getSelectedItem(), gerente);
@@ -87,5 +96,16 @@ public class TelaProjeto extends JFrame {
 
         add(btnSalvar);
         setLocationRelativeTo(null);
+    }
+
+    private JFormattedTextField createDateField() {
+        try {
+            MaskFormatter mask = new MaskFormatter("####-##-##");
+            mask.setPlaceholderCharacter('_');
+            JFormattedTextField field = new JFormattedTextField(mask);
+            return field;
+        } catch (ParseException e) {
+            return new JFormattedTextField();
+        }
     }
 }
