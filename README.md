@@ -42,18 +42,6 @@ A configuração de conexão encontra-se em `src/util/DatabaseConnection.java`.
 1. Certifique-se de que o driver `lib/mysql-connector-j-8.0.33.jar` está adicionado ao seu classpath (no VS Code, em *Referenced Libraries*).
 2. Execute a classe `Main.java` localizada em `src/`.
 
-## 💡 Dicas para a Apresentação
-
-- **Acesso Rápido**: Caso não queira criar um usuário na hora, utilize o login administrativo:
-    - **Login**: `admin`
-    - **Senha**: `admin123`
-- **Fluxo Recomendado**: 
-    1. Cadastre um usuário com perfil **Gerente**.
-    2. Crie um **Projeto** selecionando este gerente.
-    3. Crie uma **Equipe** e adicione membros a ela.
-    4. Cadastre **Tarefas** vinculadas aos usuários.
-- **Robustez**: O sistema impede a criação de projetos com datas de término anteriores ao início e valida se datas como "31/02" são inseridas.
-
 ## 📁 Estrutura de Pastas
 
 - `src/model`: Entidades (Usuário, Projeto, Equipe, Tarefa).
