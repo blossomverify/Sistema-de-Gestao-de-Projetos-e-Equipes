@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class DatabaseConnection {
-    private static final String url = "jdbc:mysql://localhost:3306/projeto_a3?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    private static final String url = "jdbc:mysql://localhost:3306/projeto_a3?useSSL=false&serverTimezone=UTC";
     private static final String user = "root";
     private static final String password = "";
 
@@ -28,6 +28,8 @@ public class DatabaseConnection {
             } else if (e.getMessage().contains("Unknown database")) {
                 mensagem = "Banco de dados 'projeto_a3' não encontrado!\n\n" +
                            "Importe o arquivo 'database.sql' no seu MySQL.";
+            } else {
+                mensagem += "\nErro técnico: " + e.getMessage();
             }
 
             JOptionPane.showMessageDialog(null, mensagem, "Erro de Conexão", JOptionPane.ERROR_MESSAGE);
