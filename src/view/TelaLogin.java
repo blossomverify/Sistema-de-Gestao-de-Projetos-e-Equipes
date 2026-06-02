@@ -55,8 +55,17 @@ public class TelaLogin extends JFrame {
     }
 
     private void efetuarLogin() {
-        String loginDigitado = txtLogin.getText();
+        String loginDigitado = txtLogin.getText().trim();
         String senhaDigitada = new String(txtSenha.getPassword());
+
+        if (loginDigitado.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo Login é obrigatório.", "Campo vazio", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (senhaDigitada.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "O campo Senha é obrigatório.", "Campo vazio", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         if (loginDigitado.equals("admin") && senhaDigitada.equals("admin123")) {
             JOptionPane.showMessageDialog(this, "Acesso Administrador Temporário!");
