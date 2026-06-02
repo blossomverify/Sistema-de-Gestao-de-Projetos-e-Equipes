@@ -22,8 +22,13 @@ public class TelaProjeto extends JFrame {
         JComboBox<StatusProjeto> comboStatus = new JComboBox<>(StatusProjeto.values());
         JComboBox<String> comboGerente = new JComboBox<>();
 
-        List<Usuario> usuarios = usuarioController.listarUsuarios();
-        usuarios.forEach(u -> comboGerente.addItem(u.getLogin()));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowActivated(java.awt.event.WindowEvent e) {
+                comboGerente.removeAllItems();
+                usuarioController.listarUsuarios().forEach(u -> comboGerente.addItem(u.getLogin()));
+            }
+        });
 
         add(new JLabel("Nome do Projeto:"));
         add(txtNome);
@@ -41,8 +46,8 @@ public class TelaProjeto extends JFrame {
         JButton btnSalvar = new JButton("Criar");
         btnSalvar.addActionListener(e -> {
             String nome = txtNome.getText().trim();
-            String inicio = txtInicio.getText().trim();
-            String termino = txtTermino.getText().trim();
+            String inicio = txtInicio.getText().trim().replace("/", "-");
+            String termino = txtTermino.getText().trim().replace("/", "-");
 
             // Validações com mensagens personalizadas
             if (nome.isEmpty()) {
