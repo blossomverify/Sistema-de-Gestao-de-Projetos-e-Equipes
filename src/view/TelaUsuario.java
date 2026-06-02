@@ -3,7 +3,9 @@ package view;
 import controller.UsuarioController;
 import model.Perfil;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.awt.*;
+import java.text.ParseException;
 
 public class TelaUsuario extends JFrame {
 
@@ -13,7 +15,7 @@ public class TelaUsuario extends JFrame {
         setLayout(new GridLayout(9, 2));
 
         JTextField txtNome = new JTextField();
-        JTextField txtCpf = new JTextField();
+        JFormattedTextField txtCpf = createCpfField();
         JTextField txtEmail = new JTextField();
         JTextField txtCargo = new JTextField();
         JTextField txtLogin = new JTextField();
@@ -22,7 +24,7 @@ public class TelaUsuario extends JFrame {
 
         add(new JLabel("Nome Completo:"));
         add(txtNome);
-        add(new JLabel("CPF (somente números):"));
+        add(new JLabel("CPF:"));
         add(txtCpf);
         add(new JLabel("Email:"));
         add(txtEmail);
@@ -38,7 +40,8 @@ public class TelaUsuario extends JFrame {
         JButton btnSalvar = new JButton("Salvar");
         btnSalvar.addActionListener(e -> {
             String nome = txtNome.getText().trim();
-            String cpf = txtCpf.getText().trim();
+            String cpfFormatado = txtCpf.getText().trim();
+            String cpf = cpfFormatado.replace(".", "").replace("-", "").replace("_", "");
             String email = txtEmail.getText().trim();
             String cargo = txtCargo.getText().trim();
             String login = txtLogin.getText().trim();
@@ -53,8 +56,8 @@ public class TelaUsuario extends JFrame {
                 JOptionPane.showMessageDialog(this, "O campo CPF é obrigatório.", "Campo vazio", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (!cpf.matches("\\d{11}")) {
-                JOptionPane.showMessageDialog(this, "CPF inválido! Digite apenas os 11 números, sem pontos ou traços.\nExemplo: 12345678901", "CPF inválido", JOptionPane.WARNING_MESSAGE);
+            if (cpf.length() < 11) {
+                JOptionPane.showMessageDialog(this, "CPF incompleto! Digite os 11 números.", "CPF inválido", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             if (email.isEmpty()) {
@@ -109,5 +112,15 @@ public class TelaUsuario extends JFrame {
 
         add(btnSalvar);
         setLocationRelativeTo(null);
+    }
+
+    private JFormattedTextField createCpfField() {
+        try {
+            MaskFormatter mask = new MaskFormatter("###.###.###-##");
+            mask.setPlaceholderCharacter('_');
+            return new JFormattedTextField(mask);
+        } catch (ParseException e) {
+            return new JFormattedTextField();
+        }
     }
 }
